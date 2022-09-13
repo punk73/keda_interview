@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\UserType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -22,12 +23,16 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $userType = new UserType(['name' => 'Customer']);
+        $userType->save();
+
         return [
-            'name' => $this->faker->name,
+            // 'name' => $this->faker->name, //there is no name column, so I need comment this perhaps ?
             'email' => $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
+            // 'email_verified_at' => now(), //there is no email_verified_at column too
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            // 'remember_token' => Str::random(10),
+            'user_type_id' => $userType->id// wonder am I doing it right since I cannot make seeder for user type, I create the one data and give the id for seeders
         ];
     }
 
