@@ -23,7 +23,7 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $userType = new UserType(['name' => 'Customer']);
+        $userType = UserType::firstOrNew(['name' => 'Customer']);
         $userType->save();
 
         return [
