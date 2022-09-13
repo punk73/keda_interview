@@ -20,3 +20,5 @@ Route::group(['prefix' => 'auth'], function () {
     
     Route::get('userList','AuthController@getUserList');
 });
+
+Route::get('test', 'TestController@index');
