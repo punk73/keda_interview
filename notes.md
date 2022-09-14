@@ -28,3 +28,5 @@ ENDPOINT :
 customer = user with specific user_type
 staff = user with specific user_type
 
+notes :
+- we need to implement authorizations on messages features.

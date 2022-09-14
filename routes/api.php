@@ -28,4 +28,9 @@ Route::group(['prefix' => 'messages', 'middleware' => 'auth:api' ], function () 
     Route::get('/{sender_id}', 'MessageController@show');
 });
 
+Route::group(['prefix' => 'customers', 'middleware' => 'auth:api' ], function () {
+    Route::get('/', 'CustomerController@index');
+    Route::delete('/{customer_id}', 'CustomerController@delete');
+});
+
 Route::get('test', 'TestController@index');

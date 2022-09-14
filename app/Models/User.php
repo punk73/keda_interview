@@ -10,6 +10,8 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Auth\Authenticatable as Auth;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\UserType;
+use Illuminate\Support\Str;
+
 class User extends Model implements Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens, Auth;
@@ -49,6 +51,32 @@ class User extends Model implements Authenticatable
 
     public function user_type(){
         return $this->belongsTo(UserType::class);
+    }
+
+    public function customers(){
+        return $this->with(['user_type:id,name'])->whereHas('user_type', function($q) {
+            $q->where('name', 'Customer');
+        });
+    }
+    
+    public function staffs(){
+        return $this->with(['user_type:id,name'])->whereHas('user_type', function ($q) {
+            $q->where('name', 'Staff');
+        });
+    }
+
+    public function isStaff(){
+        $userType = $this->user_type;
+        if(!$userType) {
+            return false;
+        }
+
+        return $userType->name== 'Staff';
+    }
+
+    public function isCustomer(){
+        // asumsi kalau bukan staff, ya customer;
+        return !$this->isStaff();
     }
 
 }
