@@ -22,4 +22,9 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('logout','AuthController@logout')->middleware(['auth:api']);
 });
 
-Route::get('test', 'TestController@index'); 
+Route::group(['prefix' => 'messages', 'middleware' => 'auth:api' ], function () {
+    Route::post('/', 'MessageController@send');
+    Route::get('/', 'MessageController@index');
+});
+
+Route::get('test', 'TestController@index');

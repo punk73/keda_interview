@@ -11,4 +11,20 @@ todo :
     - send email & password
     - give back token if success
 
-- 
+message content :
+- id *
+- sender_id **
+- recipient_id **
+- content
+- created_at
+- updated_at
+- is_report = ??
+
+ENDPOINT :
+-  /messages post
+- /messages get
+
+
+customer = user with specific user_type
+staff = user with specific user_type
+
