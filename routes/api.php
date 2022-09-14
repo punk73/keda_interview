@@ -25,6 +25,7 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['prefix' => 'messages', 'middleware' => 'auth:api' ], function () {
     Route::post('/', 'MessageController@send');
     Route::get('/', 'MessageController@index');
+    Route::get('/{sender_id}', 'MessageController@show');
 });
 
 Route::get('test', 'TestController@index');
