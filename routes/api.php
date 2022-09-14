@@ -18,7 +18,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     
-    Route::get('userList','AuthController@getUserList');
+    Route::get('userList','AuthController@getUserList')->middleware(['auth:api']);
+    Route::post('logout','AuthController@logout')->middleware(['auth:api']);
 });
 
-Route::get('test', 'TestController@index');
+Route::get('test', 'TestController@index'); 

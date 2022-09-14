@@ -60,8 +60,17 @@ class AuthController extends Controller
             'message' => 'Invalid Credential'
         ]);
     }
+
+    public function logout(Request $request){
+        $user = Auth::user()->token();
+        $user->revoke();
+        return [
+            'success' => true,
+            'message' => 'user logout!'
+        ];
+    }
     
-    public function userList(Request $request){
-        
+    public function getUserList(Request $request){
+        return User::get();
     }
 }
