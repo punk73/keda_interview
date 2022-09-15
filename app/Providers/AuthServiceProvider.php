@@ -31,6 +31,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->isStaff();
         });
         
+        Gate::define('make-reports', function(User $user ) {
+            return $user->isCustomer();
+        });
+        
         Gate::define('see-conversation', function(User $user, $conversation_id ) {
             // return $user->isStaff();
             if($user->isStaff()) {

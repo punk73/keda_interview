@@ -35,4 +35,8 @@ Route::group(['prefix' => 'customers', 'middleware' => 'auth:api' ], function ()
     Route::delete('/{customer_id}', 'CustomerController@delete');
 });
 
+Route::group(['prefix' => 'reports', 'middleware' => 'auth:api' ], function () {
+    Route::post('/', 'ReportController@store');
+});
+
 Route::get('test', 'TestController@index');
