@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->delete();
+        DB::table('users')->truncate(); //to make sure id reset per test running
         
         DB::table('users')->insert(array (
             0 => 
@@ -29,6 +29,14 @@ class UserSeeder extends Seeder
             array (
                 'user_type_id' => 2,
                 'email'      => 'staff@gmail.com',
+                'password'   => '$2y$12$7zw.h44/b1dE2b1pQbze/OAo.AUJaNuz9b7ENPcpnWmtifIL3rD3C',
+                'created_at' => '2021-04-01 00:00:00',
+                'updated_at' => NULL,
+            ),
+            // it is required for testing purposed
+            2 => array(
+                'user_type_id' => 1,
+                'email'      => 'customer2@gmail.com',
                 'password'   => '$2y$12$7zw.h44/b1dE2b1pQbze/OAo.AUJaNuz9b7ENPcpnWmtifIL3rD3C',
                 'created_at' => '2021-04-01 00:00:00',
                 'updated_at' => NULL,

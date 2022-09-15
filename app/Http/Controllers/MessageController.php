@@ -26,16 +26,36 @@ class MessageController extends Controller
     public function show($sender_id) {
         // return $recipient_id;
         $recipient = Auth::user();
+        $only = ['email', 'id', 'user_type_id'];
+        try {
+            //code...
+            $them = User::findOrFail($sender_id)
+                ->only($only);
+        } catch (\Exception $th) {
+            return response()->json([
+                'success' => false,
+                'message' => "user with id $sender_id not found"
+            ], 404);
+        }
 
-        $messages = Message::where('sender_id', $sender_id)
-            ->where('recipient_id', $recipient->id)
+        $messages = Message::where(function($q) use($recipient, $sender_id) {
+                // ambil chat yang kita kirim 
+                $q->where('recipient_id', $recipient->id)
+                ->Where('sender_id', $sender_id );
+            })
+            ->orWhere(function ($q) use ($recipient, $sender_id) {
+                // ambil chat yg kita terima
+                $q->where('recipient_id', $sender_id)
+                    ->Where('sender_id', $recipient->id );
+            })
             ->orderBy('id', 'desc')
             ->get();
 
         return [
             'success' => true,
             'message' => "fetch from {$sender_id}",
-            'sender'  => User::findOrFail($sender_id), 
+            'us'    => $recipient->only($only),
+            'them'  => $them, 
             'data' => $messages
         ];
     }
