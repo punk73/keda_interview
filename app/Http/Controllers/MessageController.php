@@ -6,6 +6,8 @@ use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
+
 class MessageController extends Controller
 {
     //
@@ -56,6 +58,61 @@ class MessageController extends Controller
             'message' => "fetch from {$sender_id}",
             'us'    => $recipient->only($only),
             'them'  => $them, 
+            'data' => $messages
+        ];
+    }
+
+    public function showConversation($conversation_id) {
+        
+        $allowed = Gate::allows('see-conversation', $conversation_id);
+        if(!$allowed){
+            return response()->json([
+                'success' => false,
+                'message' => "Access denied!",
+                'user' => Auth::user()
+            ], 403 );
+        }
+
+        $tmp = explode('-', $conversation_id);
+        if(!$tmp) {
+            return response()->json([
+                'success' => false,
+                'message' => "Conversation id format wrong!"
+            ], 400 );
+        }
+        $recipient = User::findOrFail($tmp[0]);
+        $sender_id = $tmp[1];
+
+        $only = ['email', 'id', 'user_type_id'];
+        try {
+            //code...
+            $them = User::findOrFail($sender_id)
+                ->only($only);
+        } catch (\Exception $th) {
+            return response()->json([
+                'success' => false,
+                'message' => "user with id $sender_id not found"
+            ], 404);
+        }
+
+        $messages = Message::where(function ($q) use ($recipient, $sender_id) {
+            // ambil chat yang kita kirim 
+            $q->where('recipient_id', $recipient->id)
+                ->Where('sender_id', $sender_id);
+        })
+            ->orWhere(function ($q) use ($recipient, $sender_id) {
+                // ambil chat yg kita terima
+                $q->where('recipient_id', $sender_id)
+                    ->Where('sender_id', $recipient->id);
+            })
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return [
+            'success' => true,
+            'message' => "fetch from {$sender_id}",
+            'us'    => $recipient->only($only),
+            'them'  => $them,
             'data' => $messages
         ];
     }

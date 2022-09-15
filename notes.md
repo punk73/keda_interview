@@ -30,3 +30,7 @@ staff = user with specific user_type
 
 notes :
 - we need to implement authorizations on messages features.
+
+
+// due to requirement that staff can read all chat history,
+we need to changes end point from recipient id to conversations id

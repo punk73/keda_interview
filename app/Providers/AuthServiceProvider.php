@@ -30,6 +30,22 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('see-customer', function(User $user ) {
             return $user->isStaff();
         });
+        
+        Gate::define('see-conversation', function(User $user, $conversation_id ) {
+            // return $user->isStaff();
+            if($user->isStaff()) {
+                return true;
+            }
+
+            $tmp = explode('-', $conversation_id);
+            if(!$tmp) {
+                return false;
+            }
+
+            $res = in_array($user->id, $tmp);
+
+            return $res;
+        });
 
         Gate::define('delete-customer', function(User $staff) {
             if(!$staff->isStaff()) {
