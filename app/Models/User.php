@@ -25,17 +25,15 @@ class User extends Model implements Authenticatable
         return Message::whereIn('id', function ($query) {
             $query->selectRaw('max(id)')
             ->from('messages')
-            ->where( function($q){
-                $q->where('recipient_id', '=', $this->id)
-                ->where('sender_id', '!=', $this->id);
-            })
-            ->orWhere( function($q){
-                $q->where('recipient_id', '!=', $this->id)
-                ->where('sender_id', '=', $this->id);
-            })
-            ->groupBy(['sender_id', 'recipient_id'])
+            ->groupBy(['conversation_id'])
             ->get();
-        })->select('sender_id','recipient_id', 'content', 'created_at')
+        })->select('sender_id','recipient_id','conversation_id', 'content', 'created_at')
+        ->where(function($q) {
+            if($this->isCustomer()){
+                $q->where('recipient_id', $this->id)
+                ->orWhere('sender_id', $this->id);
+            }
+        })
         ->orderBy('created_at', 'desc')
         ->get();
     }

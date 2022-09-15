@@ -18,7 +18,7 @@ class MessageController extends Controller
         return [
             'success' => true,
             'message' => 'conversations history',
-            'sender' => $sender,
+            'us' => $sender,
             'data' => $conversations
         ];
     }
@@ -76,6 +76,7 @@ class MessageController extends Controller
         ];
 
         $message = new Message($msg);
+        $message->conversation_id = $this->getConversationId($senderId, $request->recipient_id);
         $message->save();
 
         return [
@@ -83,5 +84,13 @@ class MessageController extends Controller
             'message' => 'message sent!',
             'data' => $message
         ];
+    }
+
+    public function getConversationId($a, $b){
+        if($a <= $b) {
+            return $a . "-" . $b;
+        }
+
+        return $b ."-". $b;
     }
 }

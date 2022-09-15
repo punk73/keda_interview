@@ -70,7 +70,7 @@ class MessageTest extends TestCase
             ->assertJsonStructure(['success', 'message', 'data'])
             ->assertJson(['success' => true])
             ->assertJson(['data' => []])
-            ->assertJsonCount(1, 'data.*'); //it's from seeder, satu percakapan
+            ->assertJsonCount(2, 'data.*'); //it's from seeder, dua percakapan
 
     }
 
@@ -87,7 +87,7 @@ class MessageTest extends TestCase
             ->assertJsonStructure(['success', 'message', 'data'])
             ->assertJson(['success' => true])
             ->assertJson(['data' => []])
-            ->assertJsonCount(3, 'data.*'); //it's from seeder, dua percakapan karena bs liat semua percakapan. bahkan customer to customer;
+            ->assertJsonCount(3, 'data.*'); //it's from seeder, tiga percakapan karena bs liat semua percakapan. bahkan customer to customer;
 
     }
 }
