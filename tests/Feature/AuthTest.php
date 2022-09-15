@@ -49,4 +49,17 @@ class AuthTest extends TestCase
         ->assertStatus(200)
         ->assertJsonStructure(['success', 'token']);
     }
+
+    public function test_failed_login(){
+        $this->seed(DatabaseSeeder::class);
+
+        $body = [
+            'email' => 'staff@gmail.com',
+            'password' => 'wrongpassword',
+        ];
+        $this->json('POST', '/api/auth/login', $body, ['Accept' => 'application/json'])
+        ->assertStatus(200)
+        ->assertJsonStructure(['success', 'message'])
+        ->assertJson(['success' => false]);
+    }
 }
