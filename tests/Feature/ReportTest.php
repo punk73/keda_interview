@@ -74,4 +74,21 @@ class ReportTest extends TestCase
         ]);
         
     }
+    
+    public function test_reporting_staff(){
+        $this->seed();
+
+        $body = [
+            'content' => "why is my package not received yet?",
+            'reported_user_id' => 2 //staff
+        ];
+        $userid = 1;
+        $user = User::find($userid); // customer
+        $response = $this->actingAs($user, 'api')
+        ->json('POST', '/api/reports', $body, ['Accept' => 'application/json'])
+        ->assertStatus(403)
+        ->assertJsonStructure(['success', 'message'])
+        ->assertJson(['success' => false]);
+
+    }
 }
