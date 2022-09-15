@@ -50,7 +50,7 @@ class AuthController extends Controller
             
             $token = Auth::user()->createToken('accessToken')->accessToken;
             return response()->json([
-                'successs' => true,
+                'success' => true,
                 'token' => $token
             ]);
         }

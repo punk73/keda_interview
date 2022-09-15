@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeds\UserSeeder;
 use Database\Seeds\UserTypeSeeder;
 
-class DatabaseSeeder extends Seeder
+class DatabaseSeederBackup extends Seeder
 {
     /**
      * Seed the application's database.

@@ -13,7 +13,7 @@ class UserTypeSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('user_types')->delete();
+        DB::table('user_types')->truncate(); // to make sure id is 1 and 2 in test
         
         DB::table('user_types')->insert(array (
             0 => 
