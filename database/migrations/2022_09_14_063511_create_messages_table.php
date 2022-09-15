@@ -25,6 +25,7 @@ class CreateMessagesTable extends Migration
             $table->unsignedInteger('sender_id');
             $table->unsignedInteger('recipient_id');
             $table->string('content');
+            $table->string('conversation_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
