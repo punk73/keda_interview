@@ -12,14 +12,17 @@ class CustomerController extends Controller
     //
     public function index(Request $request) {
         if (!Gate::allows('see-customer')) {
-            return [
+            return response()->json( [
                 'success' => false,
                 'message' => 'Access denied! only staff can see customer',
                 'data' => Auth::user()
-            ];
+            ], 403 );
         }
         
-        $customer = (new User())->customers()->get();
+        $customer = (new User())->customers()
+        ->withTrashed()
+        ->get();
+        
         return [
             'success' => true,
             'message' => 'data customer fetched!',

@@ -10,11 +10,12 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Auth\Authenticatable as Auth;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\UserType;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class User extends Model implements Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens, Auth;
+    use HasFactory, Notifiable, HasApiTokens, Auth, SoftDeletes;
 
     protected $hidden = ['password'];
     protected $guarded = ['id'];
