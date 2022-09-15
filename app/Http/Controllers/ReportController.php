@@ -37,6 +37,7 @@ class ReportController extends Controller
             }
             $reports->reported_user_id = $request->reported_user_id;
         }
+        
         $reports->save();
 
         return [
